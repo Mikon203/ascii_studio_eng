@@ -1,0 +1,81 @@
+body {
+    background-color: #121212;
+    color: #e0e0e0;
+    font-family: sans-serif;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container {
+    max-width: 800px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.controls, .aspect-ratio-section, .panel {
+    background: #1e1e1e;
+    padding: 20px;
+    border-radius: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.ratio-btn {
+    background: #333;
+    border: none;
+    color: white;
+    padding: 8px 15px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.ratio-btn.active { background: #00a8ff; }
+
+.btn-main {
+    background: #27ae60;
+    color: white;
+    border: none;
+    padding: 15px 40px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    border-radius: 8px;
+    width: 100%;
+}
+
+.output-zone {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+canvas {
+    max-width: 100%;
+    height: auto;
+    background: #000;
+    display: block;
+    margin: 0 auto;
+}
+
+#output-html {
+    background: #000;
+    font-family: monospace;
+    font-size: 8px;
+    line-height: 1;
+    white-space: pre;
+    overflow: auto;
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #333;
+}

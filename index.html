@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>ASCII & Pixel Studio</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Конвертер изображений</h1>
+
+        <div class="controls">
+            <div class="control-group">
+                <label>Фото:</label>
+                <input type="file" id="upload" accept="image/*">
+            </div>
+            
+            <div class="control-group">
+                <label>Режим:</label>
+                <select id="mode">
+                    <option value="ascii">Обычный ASCII</option>
+                    <option value="pixels">Чистые пиксели</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <label>Ширина: <span id="res-val">100</span></label>
+                <input type="range" id="resolution" min="20" max="200" value="100">
+            </div>
+
+            <div class="control-group">
+                <label>Детализация: <span id="bright-val">50</span></label>
+                <input type="range" id="brightness" min="0" max="100" value="50">
+            </div>
+
+            <div class="control-group">
+                <label><input type="checkbox" id="use-color" checked> Цвет</label>
+                <input type="color" id="bg-color" value="#000000">
+            </div>
+        </div>
+
+        <div class="aspect-ratio-section">
+            <label>Формат:</label>
+            <div class="ratio-buttons">
+                <button class="ratio-btn active" data-ratio="original">Оригинал</button>
+                <button class="ratio-btn" data-ratio="1:1">1:1</button>
+                <button class="ratio-btn" data-ratio="16:9">16:9</button>
+                <button class="ratio-btn" data-ratio="4:3">4:3</button>
+            </div>
+        </div>
+
+        <div class="action-zone">
+            <button class="btn-main" id="download-btn">Скачать результат (PNG)</button>
+        </div>
+
+        <div class="output-zone">
+            <div class="panel">
+                <h3>Изображение (Canvas)</h3>
+                <canvas id="canvas-preview"></canvas>
+            </div>
+            
+            <div class="panel">
+                <h3>Текст (Скопировать)</h3>
+                <div id="output-html"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
