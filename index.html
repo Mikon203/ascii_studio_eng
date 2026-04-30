@@ -40,6 +40,27 @@
             </div>
         </div>
 
+        <div class="bg-removal-section">
+            <div class="bg-removal-header">
+                <label><input type="checkbox" id="bg-remove-enabled"> Удаление фона</label>
+                <div class="bg-color-pick">
+                    <span>Цвет фона:</span>
+                    <input type="color" id="bg-remove-color" value="#ffffff">
+                    <button id="bg-eyedrop-hint" class="eyedrop-btn" title="Выбери цвет фона вручную">🎨</button>
+                </div>
+            </div>
+            <div class="bg-removal-sliders" id="bg-removal-sliders">
+                <div class="control-group">
+                    <label>Порог удаления: <span id="bg-threshold-val">30</span></label>
+                    <input type="range" id="bg-threshold" min="0" max="150" value="30">
+                </div>
+                <div class="control-group">
+                    <label>Размытие краёв: <span id="bg-feather-val">10</span></label>
+                    <input type="range" id="bg-feather" min="0" max="50" value="10">
+                </div>
+            </div>
+        </div>
+
         <div class="aspect-ratio-section">
             <label>Формат:</label>
             <div class="ratio-buttons">

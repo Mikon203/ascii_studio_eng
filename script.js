@@ -11,6 +11,95 @@ const ctx = canvas.getContext('2d');
 const outputHtml = document.getElementById('output-html');
 const downloadBtn = document.getElementById('download-btn');
 
+// BG removal controls
+const bgRemoveEnabled = document.getElementById('bg-remove-enabled');
+const bgRemoveColor = document.getElementById('bg-remove-color');
+const bgThreshold = document.getElementById('bg-threshold');
+const bgThresholdVal = document.getElementById('bg-threshold-val');
+const bgFeather = document.getElementById('bg-feather');
+const bgFeatherVal = document.getElementById('bg-feather-val');
+const bgRemovalSection = document.querySelector('.bg-removal-section');
+
+bgRemoveEnabled.addEventListener('change', () => {
+    bgRemovalSection.classList.toggle('active', bgRemoveEnabled.checked);
+    render();
+});
+
+[bgRemoveColor, bgThreshold, bgFeather].forEach(el => {
+    el.addEventListener('input', () => {
+        bgThresholdVal.textContent = bgThreshold.value;
+        bgFeatherVal.textContent = bgFeather.value;
+        render();
+    });
+});
+
+// Позволяем пипеткой выбрать цвет фона с загруженного изображения
+document.getElementById('bg-eyedrop-hint').addEventListener('click', () => {
+    if (!originalImage) return;
+    // Берём цвет из угла изображения (верхний левый — обычно фон)
+    const tempC = document.createElement('canvas');
+    tempC.width = originalImage.width;
+    tempC.height = originalImage.height;
+    const tempCx = tempC.getContext('2d');
+    tempCx.drawImage(originalImage, 0, 0);
+    const corners = [
+        tempCx.getImageData(0, 0, 1, 1).data,
+        tempCx.getImageData(originalImage.width - 1, 0, 1, 1).data,
+        tempCx.getImageData(0, originalImage.height - 1, 1, 1).data,
+        tempCx.getImageData(originalImage.width - 1, originalImage.height - 1, 1, 1).data,
+    ];
+    // Среднее по углам
+    const avg = corners.reduce((acc, c) => [acc[0]+c[0], acc[1]+c[1], acc[2]+c[2]], [0,0,0])
+        .map(v => Math.round(v / corners.length));
+    bgRemoveColor.value = '#' + avg.map(v => v.toString(16).padStart(2, '0')).join('');
+    render();
+});
+
+// Вычисляем "расстояние" между двумя цветами в RGB
+function colorDistance(r1, g1, b1, r2, g2, b2) {
+    // Взвешенное евклидово расстояние — более точное восприятие
+    const dr = r1 - r2, dg = g1 - g2, db = b1 - b2;
+    return Math.sqrt(0.3 * dr*dr + 0.59 * dg*dg + 0.11 * db*db);
+}
+
+function hexToRgb(hex) {
+    const r = parseInt(hex.slice(1,3), 16);
+    const g = parseInt(hex.slice(3,5), 16);
+    const b = parseInt(hex.slice(5,7), 16);
+    return [r, g, b];
+}
+
+// Применяем удаление фона к пикселям изображения
+function applyBgRemoval(imageData, width, height) {
+    const data = new Uint8ClampedArray(imageData.data);
+    const threshold = parseInt(bgThreshold.value);
+    const feather = parseInt(bgFeather.value);
+    const [br, bg, bb] = hexToRgb(bgRemoveColor.value);
+
+    // Шаг 1: вычисляем маску (0 = фон, 255 = объект)
+    const mask = new Float32Array(width * height);
+    for (let i = 0; i < width * height; i++) {
+        const r = data[i*4], g = data[i*4+1], b = data[i*4+2];
+        const dist = colorDistance(r, g, b, br, bg, bb);
+        // Плавный переход вместо резкой границы
+        if (dist < threshold) {
+            mask[i] = 0;
+        } else if (dist < threshold + feather) {
+            mask[i] = (dist - threshold) / feather; // 0..1
+        } else {
+            mask[i] = 1;
+        }
+    }
+
+    // Шаг 2: применяем маску к альфа-каналу
+    for (let i = 0; i < width * height; i++) {
+        data[i*4 + 3] = Math.round(mask[i] * data[i*4 + 3]);
+    }
+
+    return new ImageData(data, width, height);
+}
+
+
 const asciiChars = "@#S%?*+;:,. ";
 let originalImage = null;
 let currentRatio = 'original';
@@ -85,7 +174,11 @@ function render() {
     // Растягиваем изображение на всю сетку символов
     tempCtx.drawImage(originalImage, 0, 0, symbolsX, symbolsY);
     
-    const pixels = tempCtx.getImageData(0, 0, symbolsX, symbolsY).data;
+    let imgData = tempCtx.getImageData(0, 0, symbolsX, symbolsY);
+    if (bgRemoveEnabled.checked) {
+        imgData = applyBgRemoval(imgData, symbolsX, symbolsY);
+    }
+    const pixels = imgData.data;
     let htmlBuffer = "";
     
     // Шаг отрисовки на холсте (чтобы всё влезло ровно)

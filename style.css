@@ -68,6 +68,58 @@ canvas {
     margin: 0 auto;
 }
 
+.bg-removal-section {
+    background: #1e1e1e;
+    padding: 20px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    border: 1px solid #333;
+}
+
+.bg-removal-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.bg-color-pick {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    opacity: 0.4;
+    transition: opacity 0.2s;
+}
+
+.bg-removal-section.active .bg-color-pick {
+    opacity: 1;
+}
+
+.eyedrop-btn {
+    background: #333;
+    border: none;
+    color: white;
+    padding: 4px 8px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.bg-removal-sliders {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.bg-removal-section.active .bg-removal-sliders {
+    max-height: 200px;
+}
+
 #output-html {
     background: #000;
     font-family: monospace;
