@@ -8,63 +8,63 @@
 <body>
 
     <div class="container">
-        <h1>Конвертер изображений</h1>
+        <h1>ASCII Text Generator</h1>
 
         <div class="controls">
             <div class="control-group">
-                <label>Фото:</label>
+                <label>Photo:</label>
                 <input type="file" id="upload" accept="image/*">
             </div>
             
             <div class="control-group">
-                <label>Режим:</label>
+                <label>Mode:</label>
                 <select id="mode">
-                    <option value="ascii">Обычный ASCII</option>
-                    <option value="pixels">Чистые пиксели</option>
+                    <option value="ascii">Plain ASCII</option>
+                    <option value="pixels">Pixel ASCII</option>
                 </select>
             </div>
 
             <div class="control-group">
-                <label>Ширина: <span id="res-val">100</span></label>
+                <label>Size: <span id="res-val">100</span></label>
                 <input type="range" id="resolution" min="20" max="200" value="100">
             </div>
 
             <div class="control-group">
-                <label>Детализация: <span id="bright-val">50</span></label>
+                <label>Detail: <span id="bright-val">50</span></label>
                 <input type="range" id="brightness" min="0" max="100" value="50">
             </div>
 
             <div class="control-group">
-                <label><input type="checkbox" id="use-color" checked> Цвет</label>
+                <label><input type="checkbox" id="use-color" checked> Colored</label>
                 <input type="color" id="bg-color" value="#000000">
             </div>
         </div>
 
         <div class="bg-removal-section">
             <div class="bg-removal-header">
-                <label><input type="checkbox" id="bg-remove-enabled"> Удаление фона</label>
+                <label><input type="checkbox" id="bg-remove-enabled"> Remove Background</label>
                 <div class="bg-color-pick">
-                    <span>Цвет фона:</span>
+                    <span>Background Color:</span>
                     <input type="color" id="bg-remove-color" value="#ffffff">
-                    <button id="bg-eyedrop-hint" class="eyedrop-btn" title="Выбери цвет фона вручную">🎨</button>
+                    <button id="bg-eyedrop-hint" class="eyedrop-btn" title="Choose by Hand">🎨</button>
                 </div>
             </div>
             <div class="bg-removal-sliders" id="bg-removal-sliders">
                 <div class="control-group">
-                    <label>Порог удаления: <span id="bg-threshold-val">30</span></label>
+                    <label>Threshold: <span id="bg-threshold-val">30</span></label>
                     <input type="range" id="bg-threshold" min="0" max="150" value="30">
                 </div>
                 <div class="control-group">
-                    <label>Размытие краёв: <span id="bg-feather-val">10</span></label>
+                    <label>Edge Blur: <span id="bg-feather-val">10</span></label>
                     <input type="range" id="bg-feather" min="0" max="50" value="10">
                 </div>
             </div>
         </div>
 
         <div class="aspect-ratio-section">
-            <label>Формат:</label>
+            <label>Format:</label>
             <div class="ratio-buttons">
-                <button class="ratio-btn active" data-ratio="original">Оригинал</button>
+                <button class="ratio-btn active" data-ratio="original">Original</button>
                 <button class="ratio-btn" data-ratio="1:1">1:1</button>
                 <button class="ratio-btn" data-ratio="16:9">16:9</button>
                 <button class="ratio-btn" data-ratio="4:3">4:3</button>
@@ -72,17 +72,17 @@
         </div>
 
         <div class="action-zone">
-            <button class="btn-main" id="download-btn">Скачать результат (PNG)</button>
+            <button class="btn-main" id="download-btn">Export (PNG)</button>
         </div>
 
         <div class="output-zone">
             <div class="panel">
-                <h3>Изображение (Canvas)</h3>
+                <h3>Image (Canvas)</h3>
                 <canvas id="canvas-preview"></canvas>
             </div>
             
             <div class="panel">
-                <h3>Текст (Скопировать)</h3>
+                <h3>Text (Copy This)</h3>
                 <div id="output-html"></div>
             </div>
         </div>
